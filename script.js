@@ -8,25 +8,21 @@ const DEFAULT_STATE = {
       caption: "First Date ☕",
       tilt: "-rotate-6",
       backNote: "I was so nervous before you walked in, and then we talked for 4 hours straight until the cafe closed! Best coffee ever. ☕❤️",
-      customImg: ""
     },
     {
       caption: "Road trip 🚗",
       tilt: "rotate-6",
       backNote: "Singing at the top of our lungs with the windows down and pulling over just to look at the shooting stars. 🌠🚗",
-      customImg: ""
     },
     {
       caption: "Stargazing ✨",
       tilt: "-rotate-3",
       backNote: "Wrapped up in one giant blanket under the night sky. Still convinced none of those stars shine as bright as your eyes. ✨🌙",
-      customImg: ""
     },
     {
       caption: "Our laugh fest 😂",
       tilt: "rotate-3",
       backNote: "I still don't even remember what started the joke, just that we laughed until our stomachs hurt! My favorite sound in the world. 😂💕",
-      customImg: "",
       badge: "Click to flip!"
     }
   ],
@@ -83,27 +79,7 @@ const DEFAULT_STATE = {
   ]
 };
 
-let appState = loadState();
-
-function loadState() {
-  try {
-    const saved = localStorage.getItem("birthday_scrapbook_state_v1");
-    if (saved) {
-      return { ...DEFAULT_STATE, ...JSON.parse(saved) };
-    }
-  } catch (e) {
-    console.warn("Could not read localStorage", e);
-  }
-  return JSON.parse(JSON.stringify(DEFAULT_STATE));
-}
-
-function saveState() {
-  try {
-    localStorage.setItem("birthday_scrapbook_state_v1", JSON.stringify(appState));
-  } catch (e) {
-    console.warn("Could not save to localStorage", e);
-  }
-}
+const appState = DEFAULT_STATE;
 
 // --- HAND-DRAWN SVG ILLUSTRATIONS FOR POLAROIDS ---
 function getPolaroidSVG(index) {
@@ -214,7 +190,7 @@ function renderApp() {
         <!-- Front -->
         <div class="polaroid-face">
           <div class="w-full flex-1 overflow-hidden border-2 border-[#3A2A29] rounded-sm bg-[#F5E6D3]">
-            ${p.customImg ? `<img src="${p.customImg}" alt="${p.caption}" class="w-full h-full object-cover" onerror="this.style.display='none'"/>` : getPolaroidSVG(idx)}
+            ${getPolaroidSVG(idx)}
           </div>
           <p class="font-hand text-lg sm:text-xl font-bold text-center text-[#3A2A29] mt-1 leading-none truncate">
             ${p.caption}
@@ -582,36 +558,73 @@ document.getElementById("rsvp-yes-btn").addEventListener("click", () => {
   modal.classList.add("flex");
 });
 
-// --- CUSTOMIZER MODAL LOGIC ---
-document.getElementById("open-customizer-btn").addEventListener("click", () => {
-  document.getElementById("cust-name").value = appState.name;
-  document.getElementById("cust-song").value = appState.songTitle;
-  document.getElementById("cust-main-letter").value = appState.mainBirthdayLetter;
+const confettiCanvas = document.getElementById("confetti-canvas");
+const confettiContext = confettiCanvas.getContext("2d");
+const confettiParticles = [];
+let confettiAnimationFrame = null;
 
-  // Populate Polaroid inputs
-  const polList = document.getElementById("cust-polaroids-list");
-  polList.innerHTML = appState.polaroids.map((p, i) => `
-    <div class="bg-white/80 p-3 rounded-xl border border-[#3A2A29]/40 space-y-2">
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-        <div>
-          <label class="block text-[11px] font-bold">Polaroid #${i + 1} Caption:</label>
-          <input type="text" id="cust-pol-cap-${i}" value="${p.caption}" class="w-full px-2.5 py-1 rounded border border-[#3A2A29] font-bold text-xs"/>
-        </div>
-        <div>
-          <label class="block text-[11px] font-bold">Custom Image URL (Optional):</label>
-          <input type="text" id="cust-pol-img-${i}" value="${p.customImg || ''}" placeholder="Paste image link or leave blank for art" class="w-full px-2.5 py-1 rounded border border-[#3A2A29] text-xs"/>
-        </div>
-      </div>
-      <div>
-        <label class="block text-[11px] font-bold">Handwritten Note on Back:</label>
-        <input type="text" id="cust-pol-note-${i}" value="${p.backNote}" class="w-full px-2.5 py-1 rounded border border-[#3A2A29] text-xs"/>
-      </div>
-    </div>
-  `).join("");
+function launchConfetti({ particleCount = 60, heartsOnly = false } = {}) {
+  const pixelRatio = window.devicePixelRatio || 1;
+  confettiCanvas.width = window.innerWidth * pixelRatio;
+  confettiCanvas.height = window.innerHeight * pixelRatio;
+  confettiContext.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
 
-  // Populate Envelopes inputs
-  const envList = document.getElementById("cust-envelopes-list");
-  envList.innerHTML = appState.envelopes.map((env, i) => `
-    <div class="bg-white/80 p-3 rounded-xl border border-[#3A2A29]/40">
-      <label class="block text-xs font-bold mb-1">${env.title}:</label>
-      <textarea id="cust-env-note-${i}" rows="2" class="w-full p-2 rounded border border-[#3A2A29] text-xs">${env.note}</textarea>
+  const colors = ["#F28B82", "#DFB45A", "#DFD3E8", "#7FA982", "#FDE8B2"];
+  for (let index = 0; index < particleCount; index++) {
+    confettiParticles.push({
+      x: Math.random() * window.innerWidth,
+      y: -20 - Math.random() * window.innerHeight * 0.3,
+      size: 5 + Math.random() * 8,
+      speedX: (Math.random() - 0.5) * 4,
+      speedY: 2 + Math.random() * 4,
+      rotation: Math.random() * Math.PI * 2,
+      rotationSpeed: (Math.random() - 0.5) * 0.12,
+      color: colors[index % colors.length],
+      heart: heartsOnly || Math.random() < 0.25
+    });
+  }
+
+  if (confettiAnimationFrame === null) {
+    animateConfetti();
+  }
+}
+
+function animateConfetti() {
+  confettiContext.clearRect(0, 0, window.innerWidth, window.innerHeight);
+  for (let index = confettiParticles.length - 1; index >= 0; index--) {
+    const particle = confettiParticles[index];
+    particle.x += particle.speedX;
+    particle.y += particle.speedY;
+    particle.rotation += particle.rotationSpeed;
+    particle.speedY += 0.045;
+
+    confettiContext.save();
+    confettiContext.translate(particle.x, particle.y);
+    confettiContext.rotate(particle.rotation);
+    confettiContext.fillStyle = particle.color;
+    if (particle.heart) {
+      const size = particle.size;
+      confettiContext.beginPath();
+      confettiContext.moveTo(0, size * 0.3);
+      confettiContext.bezierCurveTo(-size, -size * 0.4, -size * 0.55, -size, 0, -size * 0.35);
+      confettiContext.bezierCurveTo(size * 0.55, -size, size, -size * 0.4, 0, size * 0.3);
+      confettiContext.fill();
+    } else {
+      confettiContext.fillRect(-particle.size / 2, -particle.size / 2, particle.size, particle.size * 0.65);
+    }
+    confettiContext.restore();
+
+    if (particle.y > window.innerHeight + 20) {
+      confettiParticles.splice(index, 1);
+    }
+  }
+
+  if (confettiParticles.length) {
+    confettiAnimationFrame = requestAnimationFrame(animateConfetti);
+  } else {
+    confettiContext.clearRect(0, 0, window.innerWidth, window.innerHeight);
+    confettiAnimationFrame = null;
+  }
+}
+
+renderApp();
