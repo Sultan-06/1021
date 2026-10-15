@@ -2,7 +2,6 @@
 const DEFAULT_STATE = {
   name: "CHLOE",
   songTitle: '"Our Song"',
-  mainBirthdayLetter: `My Dearest Chloe,\n\nHappy Birthday to the girl who makes every single day feel brighter, warmer, and full of laughter! 🎉💖\n\nEvery memory we've made—from our first coffee date to late-night drives and uncontrollable laugh fests—is my favorite treasure. Thank you for your kindness, your radiant smile, and for being you.\n\nHere's to your best, happiest, most magical year yet. I love you endlessly! ❤️`,
   polaroids: [
     {
       caption: "First Date ☕",
@@ -24,57 +23,6 @@ const DEFAULT_STATE = {
       tilt: "rotate-3",
       backNote: "I still don't even remember what started the joke, just that we laughed until our stomachs hurt! My favorite sound in the world. 😂💕",
       badge: "Click to flip!"
-    }
-  ],
-  envelopes: [
-    {
-      title: "Open when you need a laugh 😂",
-      icon: "😂",
-      note: "Remember that time we tried to look super cool and sophisticated, and within 5 minutes one of us spilled our drink and couldn't stop giggling?\n\nWhenever you're having a serious day, just remember: life with you is my favorite comedy show, and your laugh is an instant cure for anything! 🤪💛"
-    },
-    {
-      title: "Open when you miss me ❤️",
-      icon: "❤️",
-      note: "Hey birthday girl,\n\nIf you're reading this and missing me, close your eyes for 3 seconds: I'm sending you the biggest, warmest bear hug right now! 🤗\n\nNo matter where we are, you're always on my mind. Text me 'I opened the pink envelope' right now and I'll call you immediately! 💕"
-    },
-    {
-      title: "Open when you're stressed 🌿",
-      icon: "🌿",
-      note: "Take a slow, deep breath in... and let it out. 🌬️✨\n\nYou are the strongest, smartest, and most capable person I know. Whatever is on your plate right now, you don't have to carry it alone—I'm always in your corner cheering you on (and ready to bring you snacks). You've got this! 🍵💚"
-    },
-    {
-      title: "Open when you want to know how much I love you 🥰",
-      icon: "🥰",
-      note: "More than all the stars in the night sky, more than cozy Sunday mornings, and even more than dessert!\n\nI love the way your eyes light up when you're excited, the way you care so deeply about the people around you, and the way just being near you feels like home. Happy Birthday, my love! 💖✨"
-    }
-  ],
-  trivia: [
-    {
-      question: "Riddle #1: What was the best part of our first date? ☕",
-      options: [
-        "Talking & laughing so long we lost track of time 💬",
-        "Awkwardly staring at the menu for 45 minutes 📖",
-        "Arguing over whether pineapple belongs on pizza 🍍"
-      ],
-      correct: 0
-    },
-    {
-      question: "Riddle #2: What happens every time 'Our Song' comes on? 🎵",
-      options: [
-        "We politely sit in silence 🤫",
-        "Instant car concert & terrible high notes! 🎤🚗",
-        "We change the radio station immediately 📻"
-      ],
-      correct: 1
-    },
-    {
-      question: "Riddle #3: Who is officially the cutest, most amazing birthday girl in the world today? 👑",
-      options: [
-        "Definitely me! 💖",
-        "Also me, obviously! 🥰",
-        "1000% ME! 🎉"
-      ],
-      correct: -1 // -1 means ALL answers are correct!
     }
   ]
 };
@@ -422,107 +370,10 @@ document.getElementById("mic-blow-btn").addEventListener("click", async () => {
   }
 });
 
-// --- OPEN WHEN... DIGITAL VAULT MODALS ---
-function openEnvelopeModal(index) {
-  playSparkleChime();
-  const env = appState.envelopes[index];
-  document.getElementById("modal-badge-icon").textContent = env.icon;
-  document.getElementById("modal-letter-title").textContent = env.title;
-  document.getElementById("modal-letter-body").textContent = env.note;
-  const modal = document.getElementById("letter-modal");
-  modal.classList.remove("hidden");
-  modal.classList.add("flex");
-}
-
 function closeLetterModal() {
   const modal = document.getElementById("letter-modal");
   modal.classList.add("hidden");
   modal.classList.remove("flex");
-}
-
-// --- TRIVIA MINI-QUEST ---
-let currentTriviaStep = 0;
-
-document.getElementById("start-quest-btn").addEventListener("click", () => {
-  playSparkleChime();
-  currentTriviaStep = 0;
-  document.getElementById("trivia-question-view").classList.remove("hidden");
-  document.getElementById("trivia-reward-view").classList.add("hidden");
-  renderTriviaStep();
-  const modal = document.getElementById("trivia-modal");
-  modal.classList.remove("hidden");
-  modal.classList.add("flex");
-});
-
-function renderTriviaStep() {
-  const qObj = appState.trivia[currentTriviaStep];
-  document.getElementById("trivia-step-badge").textContent = `Riddle ${currentTriviaStep + 1} of${appState.trivia.length}`;
-  document.getElementById("trivia-q-text").textContent = qObj.question;
-  document.getElementById("trivia-feedback").classList.add("hidden");
-
-  // Update progress dots
-  const dotsContainer = document.getElementById("trivia-progress-dots");
-  dotsContainer.innerHTML = appState.trivia.map((_, idx) => `
-    <span class="w-3.5 h-3.5 rounded-full border-2 border-[#3A2A29] ${idx <= currentTriviaStep ? 'bg-[#DFB45A]' : 'bg-white'}"></span>
-  `).join("");
-
-  const optsContainer = document.getElementById("trivia-options");
-  optsContainer.innerHTML = "";
-  qObj.options.forEach((optText, idx) => {
-    const btn = document.createElement("button");
-    btn.className = "w-full text-left p-3.5 rounded-xl bg-[#FCEEE2] hover:bg-[#FDE8B2] border-2 border-[#3A2A29] font-bold text-sm text-[#3A2A29] transition transform hover:translate-x-1 flex items-center justify-between";
-    btn.innerHTML = `<span>${optText}</span><span>➔</span>`;
-    btn.addEventListener("click", () => handleTriviaAnswer(idx));
-    optsContainer.appendChild(btn);
-  });
-}
-
-function handleTriviaAnswer(selectedIndex) {
-  const qObj = appState.trivia[currentTriviaStep];
-  const isCorrect = qObj.correct === -1 || selectedIndex === qObj.correct;
-
-  if (isCorrect) {
-    playSparkleChime();
-    currentTriviaStep++;
-    if (currentTriviaStep >= appState.trivia.length) {
-      // Completed all riddles!
-      launchConfetti({ particleCount: 70 });
-      document.getElementById("trivia-question-view").classList.add("hidden");
-      document.getElementById("trivia-reward-view").classList.remove("hidden");
-      document.getElementById("quest-card-title").textContent = "Present Unlocked!";
-      document.getElementById("start-quest-btn").textContent = "Read Birthday Letter 💌";
-    } else {
-      renderTriviaStep();
-    }
-  } else {
-    playPaperFlipSound();
-    const fb = document.getElementById("trivia-feedback");
-    const wittyLines = [
-      "Oops! Incorrect... but you look way too pretty today, so I'll let it slide! 😉 Try again!",
-      "Wrong answer, birthday girl! Good thing you're cute! 🥰 Pick another one!",
-      "Haha nice try! Since it's your birthday, you get unlimited guesses! 🎉"
-    ];
-    document.getElementById("trivia-feedback-text").textContent = wittyLines[Math.floor(Math.random() * wittyLines.length)];
-    fb.classList.remove("hidden");
-  }
-}
-
-function closeTriviaModal() {
-  const modal = document.getElementById("trivia-modal");
-  modal.classList.add("hidden");
-  modal.classList.remove("flex");
-}
-
-function openMainBirthdayLetter() {
-  closeTriviaModal();
-  launchConfetti({ particleCount: 100 });
-  playSparkleChime();
-  document.getElementById("modal-badge-icon").textContent = "🎂💖";
-  document.getElementById("modal-letter-title").textContent = `Happy Birthday, ${appState.name}!`;
-  document.getElementById("modal-letter-body").textContent = appState.mainBirthdayLetter;
-  const modal = document.getElementById("letter-modal");
-  modal.classList.remove("hidden");
-  modal.classList.add("flex");
 }
 
 // --- DINNER INVITATION & RUNAWAY "NO" BUTTON ---
