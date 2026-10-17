@@ -1,0 +1,541 @@
+:root {
+  color-scheme: light;
+  --cream: #fdf8ec;
+  --paper: #fffdf7;
+  --ink: #3a2a29;
+  --gold: #dfb45a;
+  --pink: #f3a4b8;
+  --deep-pink: #ce6688;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 5rem 1rem 2rem;
+  background-color: var(--cream);
+  background-image: radial-gradient(rgba(58, 42, 41, 0.04) 1px, transparent 0);
+  background-size: 24px 24px;
+  color: var(--ink);
+  font-family: "Quicksand", sans-serif;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 3px solid #b783d1;
+  outline-offset: 3px;
+}
+
+h1,
+h2 {
+  font-family: "Fredoka", sans-serif;
+}
+
+.back-link {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  padding: 0.65rem 1rem;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 2px 3px 0 rgba(58, 42, 41, 0.14);
+}
+
+.birthday-card {
+  width: min(100%, 650px);
+  margin: 0 auto;
+  padding: clamp(1.5rem, 5vw, 3rem);
+  border: 2.5px solid var(--ink);
+  border-radius: 2rem;
+  background: var(--paper);
+  text-align: center;
+  box-shadow: 4px 5px 0 rgba(58, 42, 41, 0.14);
+}
+
+.page-header h1 {
+  margin: 0.35rem 0;
+  font-size: clamp(2rem, 8vw, 3.2rem);
+}
+
+.eyebrow {
+  margin: 0;
+  color: #9a7440;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.intro {
+  max-width: 32rem;
+  margin: 0.75rem auto 0;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.wish-section {
+  display: grid;
+  justify-items: center;
+  gap: 0.8rem;
+  margin-top: 1.5rem;
+}
+
+.wish-form {
+  width: 100%;
+  max-width: 28rem;
+  text-align: left;
+}
+
+.wish-form label {
+  display: block;
+  margin-bottom: 0.45rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.wish-entry {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.wish-entry input {
+  min-width: 12rem;
+  flex: 1;
+  padding: 0.7rem 0.8rem;
+  border: 2px solid rgba(58, 42, 41, 0.5);
+  border-radius: 0.75rem;
+  background: white;
+  color: var(--ink);
+}
+
+.wish-message {
+  min-height: 1.5rem;
+  margin: 0;
+  color: #8a4760;
+  font-family: "Caveat", cursive;
+  font-size: 1.45rem;
+  font-weight: 700;
+}
+
+.candle-section {
+  margin-top: 1.2rem;
+}
+
+.candle-section h2,
+.cut-section h2 {
+  margin: 0.7rem 0 0.25rem;
+  font-size: 1.5rem;
+}
+
+.instruction {
+  margin: 0.25rem 0 0.5rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.cake-stage {
+  position: relative;
+  width: min(100%, 390px);
+  height: 245px;
+  margin: 0 auto;
+  touch-action: none;
+}
+
+.cake {
+  position: absolute;
+  inset: 0;
+  transition: transform 180ms ease;
+}
+
+.cake-top {
+  position: absolute;
+  z-index: 3;
+  top: 52px;
+  left: 50%;
+  width: min(79%, 305px);
+  height: 90px;
+  overflow: hidden;
+  transform: translateX(-50%);
+  border: 3px solid #a84e70;
+  border-radius: 50%;
+  background:
+    radial-gradient(ellipse at 50% 54%, transparent 0 47%, rgba(206, 102, 136, 0.2) 48% 51%, transparent 52%),
+    #ffdce1;
+  box-shadow: inset 0 -7px 0 rgba(206, 102, 136, 0.13);
+}
+
+.cake-side {
+  position: absolute;
+  z-index: 2;
+  top: 92px;
+  left: 50%;
+  width: min(79%, 305px);
+  height: 89px;
+  transform: translateX(-50%);
+  border: 3px solid #a84e70;
+  border-top: 0;
+  border-radius: 0 0 48% 48% / 0 0 24% 24%;
+  background: linear-gradient(90deg, #e99ab1, #f3b4bf 45%, #e99ab1);
+  box-shadow: inset 0 -14px 0 rgba(169, 78, 112, 0.12);
+}
+
+.filling {
+  position: absolute;
+  top: 19px;
+  right: 0;
+  left: 0;
+  height: 12px;
+  border-top: 3px solid #fff2d4;
+  border-bottom: 3px solid #fff2d4;
+  background: #f3d698;
+}
+
+.frosting {
+  position: absolute;
+  z-index: 2;
+  display: block;
+  border-radius: 50%;
+  background: #fff8e8;
+}
+
+.frosting-one {
+  top: 30px;
+  left: 25%;
+  width: 55px;
+  height: 15px;
+  transform: rotate(-15deg);
+}
+
+.frosting-two {
+  top: 55px;
+  left: 62%;
+  width: 45px;
+  height: 13px;
+  transform: rotate(13deg);
+}
+
+.sprinkle {
+  position: absolute;
+  z-index: 3;
+  width: 13px;
+  height: 4px;
+  border-radius: 4px;
+  background: #efa34f;
+  transform: rotate(34deg);
+}
+
+.sprinkle-one { top: 32px; left: 51%; background: #88b987; }
+.sprinkle-two { top: 61px; left: 37%; background: #9c80bd; transform: rotate(-25deg); }
+.sprinkle-three { top: 24px; left: 70%; background: #e6818b; transform: rotate(-25deg); }
+.sprinkle-four { top: 63px; left: 18%; background: #e2ad50; }
+
+.berry {
+  position: absolute;
+  z-index: 4;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #c84f67;
+  box-shadow: inset -2px -2px 0 rgba(86, 36, 52, 0.2);
+}
+
+.berry-one { top: 42px; left: 44%; }
+.berry-two { top: 47px; left: 57%; }
+.berry-three { top: 33px; left: 63%; }
+
+.frosting-drip {
+  position: absolute;
+  top: 0;
+  width: 22px;
+  height: 24px;
+  border-radius: 0 0 12px 12px;
+  background: #fff8e8;
+}
+
+.drip-one { left: 14%; height: 31px; }
+.drip-two { left: 39%; height: 22px; }
+.drip-three { left: 67%; height: 32px; }
+.drip-four { left: 84%; height: 23px; }
+
+.cake-plate {
+  position: absolute;
+  z-index: 1;
+  top: 166px;
+  left: 50%;
+  width: min(90%, 350px);
+  height: 42px;
+  transform: translateX(-50%);
+  border: 3px solid var(--ink);
+  border-radius: 50%;
+  background: #e9d3ed;
+  box-shadow: 0 7px 0 rgba(58, 42, 41, 0.12);
+}
+
+.candle {
+  position: absolute;
+  z-index: 5;
+  top: 14px;
+  left: 50%;
+  width: 21px;
+  height: 55px;
+  transform: translateX(-50%);
+  border: 2px solid #ae715b;
+  border-radius: 5px 5px 2px 2px;
+  background: repeating-linear-gradient(135deg, #fff8e8 0 8px, #de86a2 8px 13px);
+}
+
+.wick {
+  position: absolute;
+  top: -7px;
+  left: 7px;
+  width: 3px;
+  height: 8px;
+  background: var(--ink);
+}
+
+.flame {
+  position: absolute;
+  top: -34px;
+  left: 4px;
+  width: 11px;
+  height: 22px;
+  border-radius: 60% 40% 55% 45%;
+  background: #ffb33f;
+  box-shadow: 0 0 15px 5px rgba(255, 179, 63, 0.35);
+  transform: rotate(8deg);
+  animation: flicker 700ms ease-in-out infinite alternate;
+}
+
+.flame::after {
+  position: absolute;
+  right: 3px;
+  bottom: 3px;
+  width: 5px;
+  height: 11px;
+  border-radius: 50%;
+  background: #fff4bd;
+  content: "";
+}
+
+.flame.is-out {
+  display: none;
+}
+
+.cake-plate::after {
+  position: absolute;
+  right: 0;
+  bottom: -8px;
+  left: 0;
+  height: 12px;
+  border: 2px solid var(--ink);
+  border-top: 0;
+  border-radius: 0 0 50% 50%;
+  content: "";
+}
+
+.cut-slice {
+  position: absolute;
+  z-index: 4;
+  top: 95px;
+  left: calc(50% + 89px);
+  width: 62px;
+  height: 73px;
+  opacity: 0;
+  background: linear-gradient(90deg, #f3b4bf 0 45%, #f3d698 46% 57%, #fff8e8 58%);
+  clip-path: polygon(0 0, 100% 35%, 95% 90%, 4% 100%);
+  filter: drop-shadow(3px 4px 1px rgba(58, 42, 41, 0.25));
+  transform: translate(0, 0) rotate(0);
+  transition: opacity 250ms ease, transform 450ms ease;
+}
+
+.cake-stage.is-cut .cut-slice {
+  opacity: 1;
+  transform: translate(18px, 3px) rotate(8deg);
+}
+
+.cut-overlay {
+  position: absolute;
+  z-index: 6;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.cut-overlay line {
+  stroke: #8a4760;
+  stroke-linecap: round;
+  stroke-width: 4;
+  stroke-dasharray: 500;
+  stroke-dashoffset: 500;
+  filter: drop-shadow(1px 2px 0 white);
+  animation: draw-cut 450ms ease forwards;
+}
+
+.knife-cursor {
+  position: fixed;
+  z-index: 20;
+  display: none;
+  pointer-events: none;
+  font-size: 2.25rem;
+  transform: translate(-8px, -8px) rotate(-35deg);
+}
+
+.knife-active .knife-cursor.is-visible {
+  display: block;
+}
+
+.knife-active .cake-stage {
+  cursor: none;
+}
+
+.status-message {
+  min-height: 1.5rem;
+  margin: 0.5rem 0;
+  color: #70435b;
+  font-size: 0.9rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.controls {
+  display: grid;
+  justify-items: center;
+  gap: 0.5rem;
+}
+
+.primary-button,
+.soft-button {
+  border: 2px solid var(--ink);
+  border-radius: 0.85rem;
+  padding: 0.75rem 1.2rem;
+  color: white;
+  font-weight: 700;
+  background: var(--gold);
+  box-shadow: 2px 3px 0 rgba(58, 42, 41, 0.15);
+  cursor: pointer;
+  transition: transform 150ms ease, filter 150ms ease;
+}
+
+.soft-button {
+  padding: 0.6rem 1rem;
+  color: var(--ink);
+  background: #f9d5d3;
+}
+
+.primary-button:hover,
+.soft-button:hover {
+  filter: brightness(0.96);
+  transform: translateY(-2px);
+}
+
+.primary-button:disabled {
+  cursor: wait;
+  opacity: 0.72;
+  transform: none;
+}
+
+.text-button {
+  border: 0;
+  padding: 0.45rem 0.65rem;
+  background: transparent;
+  color: #70435b;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.cut-section {
+  margin-top: 1.25rem;
+  padding-top: 0.6rem;
+  border-top: 1px dashed rgba(58, 42, 41, 0.35);
+}
+
+.knife-button[aria-pressed="true"] {
+  background: var(--deep-pink);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+@keyframes flicker {
+  from { transform: rotate(5deg) scale(0.95); }
+  to { transform: rotate(-7deg) scale(1.06); }
+}
+
+@keyframes draw-cut {
+  to { stroke-dashoffset: 0; }
+}
+
+@media (max-width: 420px) {
+  body {
+    padding-right: 0.65rem;
+    padding-left: 0.65rem;
+  }
+
+  .birthday-card {
+    padding: 1.4rem 1rem;
+  }
+
+  .cake-stage {
+    height: 220px;
+  }
+
+  .cake-plate {
+    top: 157px;
+  }
+
+  .cake-side {
+    top: 84px;
+    height: 82px;
+  }
+
+  .cake-top {
+    top: 45px;
+    height: 84px;
+  }
+
+  .cut-slice {
+    top: 87px;
+    left: calc(50% + 76px);
+  }
+
+  .cake-stage.is-cut .cut-slice {
+    transform: translate(14px, 3px) rotate(8deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#FDF8EC" />
+  <title>Make a Birthday Wish 🎂</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Fredoka:wght@500;600;700&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="cake.css" />
+</head>
+<body>
+  <a class="back-link" href="digital-vault.html">← Back to your birthday letters</a>
+
+  <main class="birthday-card">
+    <header class="page-header">
+      <p class="eyebrow">One more little surprise</p>
+      <h1>Your Birthday Cake <span aria-hidden="true">🎂</span></h1>
+      <p class="intro">Close your eyes, make a wish, and get ready for a sweet little celebration.</p>
+    </header>
+
+    <section class="wish-section" aria-labelledby="wish-heading">
+      <button id="wish-button" class="soft-button" type="button" aria-expanded="false" aria-controls="wish-form">Make a wish ✨</button>
+      <form id="wish-form" class="wish-form" hidden>
+        <label for="wish-input">What's your birthday wish?</label>
+        <div class="wish-entry">
+          <input id="wish-input" name="wish" maxlength="120" autocomplete="off" placeholder="Keep it secret or share it..." required />
+          <button class="soft-button" type="submit">Save my wish</button>
+        </div>
+      </form>
+      <p id="wish-message" class="wish-message" role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="candle-section" aria-labelledby="candle-heading">
+      <h2 id="candle-heading">Now blow out your candle</h2>
+      <p class="instruction">Press the button and give your candle a real-life birthday blow!</p>
+      <div id="cake-stage" class="cake-stage">
+        <div class="cake" aria-label="A pink and vanilla birthday cake with one lit candle">
+          <div class="cake-top">
+            <span class="frosting frosting-one"></span>
+            <span class="frosting frosting-two"></span>
+            <span class="sprinkle sprinkle-one"></span>
+            <span class="sprinkle sprinkle-two"></span>
+            <span class="sprinkle sprinkle-three"></span>
+            <span class="sprinkle sprinkle-four"></span>
+            <span class="berry berry-one"></span>
+            <span class="berry berry-two"></span>
+            <span class="berry berry-three"></span>
+          </div>
+          <div class="cake-side">
+            <span class="filling"></span>
+            <span class="frosting-drip drip-one"></span>
+            <span class="frosting-drip drip-two"></span>
+            <span class="frosting-drip drip-three"></span>
+            <span class="frosting-drip drip-four"></span>
+          </div>
+          <div class="cake-plate"></div>
+          <div id="candle" class="candle">
+            <span id="flame" class="flame" aria-label="Candle flame"></span>
+            <span class="wick"></span>
+          </div>
+          <div id="cut-slice" class="cut-slice" aria-hidden="true"></div>
+        </div>
+        <svg id="cut-overlay" class="cut-overlay" aria-hidden="true" viewBox="0 0 1000 1000" preserveAspectRatio="none"></svg>
+        <span id="knife-cursor" class="knife-cursor" aria-hidden="true">🔪</span>
+      </div>
+      <p id="candle-status" class="status-message" role="status" aria-live="polite">Your candle is glowing. Make a wish!</p>
+      <div class="controls">
+        <button id="blow-button" class="primary-button" type="button">🎤 Blow out the candle</button>
+        <button id="manual-blow-button" class="text-button" type="button">Or tap here to blow it out instead</button>
+      </div>
+    </section>
+
+    <section id="cut-section" class="cut-section" hidden aria-labelledby="cut-heading">
+      <h2 id="cut-heading">The candle is out! 🎉</h2>
+      <p id="cut-instruction" class="instruction">Grab the knife, then drag it across the cake to cut a slice.</p>
+      <button id="knife-button" class="primary-button knife-button" type="button" aria-pressed="false">🔪 Grab the knife</button>
+      <p id="cut-status" class="status-message" role="status" aria-live="polite"></p>
+      <button id="again-button" class="text-button" type="button" hidden>Cut another slice</button>
+    </section>
+  </main>
+
+  <script src="cake.js"></script>
+</body>
+</html>
